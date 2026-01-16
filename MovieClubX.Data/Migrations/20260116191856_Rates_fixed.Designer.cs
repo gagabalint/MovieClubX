@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieClubX.Data;
 
@@ -10,9 +11,11 @@ using MovieClubX.Data;
 namespace MovieClubX.Data.Migrations
 {
     [DbContext(typeof(MovieClubContext))]
-    partial class MovieClubContextModelSnapshot : ModelSnapshot
+    [Migration("20260116191856_Rates_fixed")]
+    partial class Rates_fixed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

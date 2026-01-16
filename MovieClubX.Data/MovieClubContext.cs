@@ -6,7 +6,7 @@ namespace MovieClubX.Data
     public class MovieClubContext:DbContext
     {
         public DbSet<Movie> Movies { get; set; }
-
+        public DbSet<Rate> Rates { get; set; }
         public MovieClubContext(DbContextOptions<MovieClubContext> opt):base(opt)
         {
         }

@@ -20,8 +20,7 @@ namespace MovieClubX.Endpoint
             builder.Services.AddTransient<DtoProvider>(); 
             builder.Services.AddDbContext<MovieClubContext>(opt =>
             {
-                opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True")
-                ;
+                opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True").UseLazyLoadingProxies();
             });
 
             var app = builder.Build();

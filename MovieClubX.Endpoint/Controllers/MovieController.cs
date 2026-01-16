@@ -26,7 +26,7 @@ namespace MovieClubX.Endpoint.Controllers
         }
 
         [HttpPost]
-        public void Post(MovieCreateUpdateDto dto)
+        public void Post([FromBody]MovieCreateUpdateDto dto)
         {
             // var movie = new Movie { Rate=dto.Rate, Title=dto.Title};
             var movie = mapper.Map<Movie>(dto);
