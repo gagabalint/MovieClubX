@@ -10,7 +10,7 @@ namespace MovieClubX.Entities.Dto
     {
         public string Id { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
-        public int Rate { get; set; }
+        public string Genre { get; set; } = string.Empty;
         public int TitleLength { get { return Title.Length; } }
     }
 }

@@ -9,6 +9,6 @@ namespace MovieClubX.Entities.Dto
     public class MovieCreateUpdateDto
     {
         public string Title { get; set; } = string.Empty;
-        public int Rate { get; set; }
+        public string Genre { get; set; } = string.Empty;
     }
 }

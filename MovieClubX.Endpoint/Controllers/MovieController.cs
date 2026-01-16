@@ -51,8 +51,10 @@ namespace MovieClubX.Endpoint.Controllers
             var toUpdate = ctx.Movies.FirstOrDefault(i => i.Id == id);
             if (toUpdate != null)
             {
-                toUpdate.Title = dto.Title;
-                toUpdate.Rate= dto.Rate;
+                mapper.Map(dto, toUpdate);// ,typeof(MovieCreateUpdateDto),typeof(Movie));
+
+                //toUpdate.Title = dto.Title;
+                //toUpdate.Rate= dto.Rate;
                 ctx.SaveChanges();
             }
         }

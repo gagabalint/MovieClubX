@@ -9,7 +9,8 @@ namespace MovieClubX.Entities.Entity
         public string Id { get; set; } = Guid.NewGuid().ToString();
         [StringLength(250)]
         public string Title { get; set; } = string.Empty;
-        public int Rate { get; set; }
+        public string Genre { get; set; }= string.Empty;
+        public virtual ICollection<Rate>? Rates { get; set; }
 
     }
 }
