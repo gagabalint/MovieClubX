@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MovieClubX.Data;
+using MovieClubX.Endpoint.Helpers;
 using MovieClubX.Entities.Dto;
 using MovieClubX.Entities.Entity;
 
@@ -10,18 +12,24 @@ namespace MovieClubX.Endpoint.Controllers
     public class MovieController : ControllerBase
     {
         MovieClubContext ctx;
-        public MovieController(MovieClubContext ctx)
+        Mapper mapper;
+        public MovieController(MovieClubContext ctx, DtoProvider mapper)
         {
             this.ctx = ctx;
+            this.mapper=mapper.Mapper;
         }
 
         [HttpGet]
-        public IEnumerable<MovieViewDto> Get() { return ctx.Movies.Select(i=> new MovieViewDto { Rate=i.Rate, Title=i.Title,Id=i.Id}); }
+        public IEnumerable<MovieViewDto> Get() {
+            // return ctx.Movies.Select(i=> new MovieViewDto { Rate=i.Rate, Title=i.Title,Id=i.Id});
+            return ctx.Movies.Select(t=>mapper.Map<MovieViewDto>(t));
+        }
 
         [HttpPost]
         public void Post(MovieCreateUpdateDto dto)
         {
-            var movie = new Movie { Rate=dto.Rate, Title=dto.Title};
+            // var movie = new Movie { Rate=dto.Rate, Title=dto.Title};
+            var movie = mapper.Map<Movie>(dto);
             ctx.Movies.Add(movie);
             ctx.SaveChanges();
         }

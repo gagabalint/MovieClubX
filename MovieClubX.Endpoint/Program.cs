@@ -1,6 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using MovieClubX.Data;
+using MovieClubX.Endpoint.Helpers;
 
 namespace MovieClubX.Endpoint
 {
@@ -16,7 +17,7 @@ namespace MovieClubX.Endpoint
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-
+            builder.Services.AddTransient<DtoProvider>();
             builder.Services.AddDbContext<MovieClubContext>(opt =>
             {
                 opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True")
