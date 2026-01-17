@@ -1,4 +1,5 @@
 
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using MovieClubX.Data;
 using MovieClubX.Endpoint.Helpers;
@@ -17,6 +18,7 @@ namespace MovieClubX.Endpoint
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddTransient(typeof(Repository<>));
             builder.Services.AddTransient<DtoProvider>(); 
             builder.Services.AddDbContext<MovieClubContext>(opt =>
             {

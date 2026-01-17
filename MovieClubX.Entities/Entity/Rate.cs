@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MovieClubX.Entities.Helpers;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MovieClubX.Entities.Entity
 {
-    public class Rate
+    public class Rate:IIdEntity
     {
         [Key]
         public string Id { get; set; } = Guid.NewGuid().ToString();

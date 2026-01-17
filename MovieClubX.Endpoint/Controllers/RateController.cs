@@ -4,6 +4,7 @@ using MovieClubX.Data;
 using MovieClubX.Endpoint.Helpers;
 using MovieClubX.Entities.Dto;
 using MovieClubX.Entities.Entity;
+using System.Threading.Tasks;
 
 namespace MovieClubX.Endpoint.Controllers
 {
@@ -11,20 +12,20 @@ namespace MovieClubX.Endpoint.Controllers
     [Route("[controller]")]
     public class RateController:ControllerBase
     {
-        MovieClubContext ctx;
+        Repository<Rate> repository;
         Mapper mapper;
-        public RateController(MovieClubContext ctx, DtoProvider provider)
+        public RateController(Repository<Rate> repository, DtoProvider provider)
         {
-            this.ctx = ctx;
+            this.repository = repository;
             mapper = provider.Mapper;
         }
 
 
         [HttpPost]
-        public void AddRate( [FromBody] RateCreateDto dto)
+        public async Task AddRate( [FromBody] RateCreateDto dto)
         {
-            ctx.Add(mapper.Map<Rate>(dto));
-            ctx.SaveChanges();
+           await repository.CreateAsync(mapper.Map<Rate>(dto));
+            
         }
     }
 }
