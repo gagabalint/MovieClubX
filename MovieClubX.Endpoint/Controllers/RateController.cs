@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MovieClubX.Data;
-using MovieClubX.Endpoint.Helpers;
 using MovieClubX.Entities.Dto;
 using MovieClubX.Entities.Entity;
+using MovieClubX.Logic;
 using System.Threading.Tasks;
 
 namespace MovieClubX.Endpoint.Controllers
@@ -12,19 +12,19 @@ namespace MovieClubX.Endpoint.Controllers
     [Route("[controller]")]
     public class RateController:ControllerBase
     {
-        Repository<Rate> repository;
-        Mapper mapper;
-        public RateController(Repository<Rate> repository, DtoProvider provider)
+        RateLogic logic;
+
+        
+        public RateController(RateLogic logic)
         {
-            this.repository = repository;
-            mapper = provider.Mapper;
+            this.logic = logic;
         }
 
 
         [HttpPost]
         public async Task AddRate( [FromBody] RateCreateDto dto)
         {
-           await repository.CreateAsync(mapper.Map<Rate>(dto));
+           await logic.AddRateAsync(dto);
             
         }
     }

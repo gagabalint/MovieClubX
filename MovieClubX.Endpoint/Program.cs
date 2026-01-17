@@ -2,7 +2,8 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using MovieClubX.Data;
-using MovieClubX.Endpoint.Helpers;
+using MovieClubX.Logic;
+using MovieClubX.Logic.Dto;
 
 namespace MovieClubX.Endpoint
 {
@@ -19,7 +20,9 @@ namespace MovieClubX.Endpoint
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.Services.AddTransient(typeof(Repository<>));
-            builder.Services.AddTransient<DtoProvider>(); 
+            builder.Services.AddTransient<MovieLogic>();
+            builder.Services.AddTransient<RateLogic>();
+            builder.Services.AddTransient<DtoProvider>();
             builder.Services.AddDbContext<MovieClubContext>(opt =>
             {
                 opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True").UseLazyLoadingProxies();
