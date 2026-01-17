@@ -21,14 +21,16 @@ namespace MovieClubX.Endpoint.Controllers
 
         [HttpGet]
         public IEnumerable<MovieViewDto> Get() {
-            // return ctx.Movies.Select(i=> new MovieViewDto { Rate=i.Rate, Title=i.Title,Id=i.Id});
             return ctx.Movies.Select(t=>mapper.Map<MovieViewDto>(t));
+        }
+        [HttpGet("Short")]
+        public IEnumerable<MovieShortViewDto> GetShort() {
+            return ctx.Movies.Select(t=>mapper.Map<MovieShortViewDto>(t));
         }
 
         [HttpPost]
         public void Post([FromBody]MovieCreateUpdateDto dto)
         {
-            // var movie = new Movie { Rate=dto.Rate, Title=dto.Title};
             var movie = mapper.Map<Movie>(dto);
             ctx.Movies.Add(movie);
             ctx.SaveChanges();
@@ -51,10 +53,9 @@ namespace MovieClubX.Endpoint.Controllers
             var toUpdate = ctx.Movies.FirstOrDefault(i => i.Id == id);
             if (toUpdate != null)
             {
-                mapper.Map(dto, toUpdate);// ,typeof(MovieCreateUpdateDto),typeof(Movie));
+                mapper.Map(dto, toUpdate);// same as adding these aswell: ,typeof(MovieCreateUpdateDto),typeof(Movie));
 
-                //toUpdate.Title = dto.Title;
-                //toUpdate.Rate= dto.Rate;
+                
                 ctx.SaveChanges();
             }
         }

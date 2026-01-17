@@ -14,6 +14,7 @@ namespace MovieClubX.Endpoint.Helpers
             {
                 cfg.CreateMap<MovieCreateUpdateDto, Movie>();
                 cfg.CreateMap<Movie, MovieViewDto>();
+                cfg.CreateMap<Movie, MovieShortViewDto>().AfterMap((src,dest)=>dest.AvgRate=src?.Rates?.Count>0?src.Rates.Average(r=>r.Value):0);
                 cfg.CreateMap<RateCreateDto, Rate>();
                 cfg.CreateMap<Rate, RateViewDto>();
             },NullLoggerFactory.Instance));
