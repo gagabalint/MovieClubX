@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieClubX.Data", "MovieClu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieClubX.Logic", "MovieClubX.Logic\MovieClubX.Logic.csproj", "{DD946806-87B2-453B-AE48-FFE17E4EBFEE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieClubX.ConsoleClient", "MovieClubX.ConsoleClient\MovieClubX.ConsoleClient.csproj", "{A138389D-85BA-400B-A644-8893DDA3B805}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DD946806-87B2-453B-AE48-FFE17E4EBFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD946806-87B2-453B-AE48-FFE17E4EBFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD946806-87B2-453B-AE48-FFE17E4EBFEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A138389D-85BA-400B-A644-8893DDA3B805}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A138389D-85BA-400B-A644-8893DDA3B805}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A138389D-85BA-400B-A644-8893DDA3B805}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A138389D-85BA-400B-A644-8893DDA3B805}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

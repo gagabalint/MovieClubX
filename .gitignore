@@ -5,6 +5,7 @@
 .vs
 .vscode/
 .idea/
+MovieClubX.ConsoleClient/
 
 # User-specific files
 *.suo
