@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MovieClubX.Data;
+using MovieClubX.Data.Helpers;
 using MovieClubX.Logic;
 using MovieClubX.Logic.Dto;
 using System.Text;
@@ -22,9 +24,34 @@ namespace MovieClubX.Endpoint
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc("v1", new OpenApiInfo { Title = "MovieClub API", Version = "v1" });
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                     {
+                         new OpenApiSecurityScheme
+                         {
+                              Reference = new OpenApiReference
+                              {
+                                  Type=ReferenceType.SecurityScheme,
+                                  Id="Bearer"
+                              }
+                         }, new string[]{}
+                     }
+                });
+            });
             builder.Services.AddTransient(typeof(Repository<>));
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddRoles<IdentityRole>().AddEntityFrameworkStores<MovieClubContext>().AddDefaultTokenProviders();
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddRoles<IdentityRole>().AddEntityFrameworkStores<MovieClubContext>().AddDefaultTokenProviders();
             builder.Services.AddAuthentication(option =>
             {
                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -44,16 +71,16 @@ namespace MovieClubX.Endpoint
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("NagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcs"))
                 };
             });
-                builder.Services.AddTransient<MovieLogic>();
-                builder.Services.AddTransient<RateLogic>();
-                builder.Services.AddTransient<DtoProvider>();
-                builder.Services.AddDbContext<MovieClubContext>(opt =>
-                {
-                    opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True").UseLazyLoadingProxies();
-                });
-            
+            builder.Services.AddTransient<MovieLogic>();
+            builder.Services.AddTransient<RateLogic>();
+            builder.Services.AddTransient<DtoProvider>();
+            builder.Services.AddDbContext<MovieClubContext>(opt =>
+            {
+                opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True").UseLazyLoadingProxies();
+            });
 
-                var app = builder.Build();
+
+            var app = builder.Build();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -73,5 +100,5 @@ namespace MovieClubX.Endpoint
         }
     }
 }
-    
+
 

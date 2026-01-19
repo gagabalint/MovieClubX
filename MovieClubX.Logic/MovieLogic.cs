@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieClubX.Data;
+using MovieClubX.Data.Helpers;
 using MovieClubX.Entities.Dto.MovieDtos;
 using MovieClubX.Entities.Entity;
 using MovieClubX.Logic.Dto;
@@ -31,9 +32,10 @@ namespace MovieClubX.Logic
             return mapper.Map<MovieViewDto>(repository.GetAll().FirstOrDefault(i => i.Slug == slug));
         }
 
-        public async Task Create( MovieCreateUpdateDto dto)
+        public async Task Create( MovieCreateUpdateDto dto, string creatorId)
         {
             var movie = mapper.Map<Movie>(dto);
+            movie.CreatorId = creatorId;
             //movie.Slug = SlugGenerator.SlugGenerator.GenerateSlug(dto.Title);
 
             await repository.CreateAsync(movie);
@@ -46,10 +48,10 @@ namespace MovieClubX.Logic
 
         }
 
-        public async Task Update(string id, MovieCreateUpdateDto dto)
+        public async Task Update(string id, MovieCreateUpdateDto dto, string creatorId)
         {
             var toUpdate = repository.GetById(id);
-            if (toUpdate != null)
+            if (toUpdate != null&&toUpdate.CreatorId==creatorId)
             {
                 mapper.Map(dto, toUpdate);// same as adding these aswell: ,typeof(MovieCreateUpdateDto),typeof(Movie));
 

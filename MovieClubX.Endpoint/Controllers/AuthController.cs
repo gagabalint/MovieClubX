@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using MovieClubX.Data.Helpers;
 using MovieClubX.Entities.Dto.AuthDtos;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,10 +13,10 @@ namespace MovieClubX.Endpoint.Controllers
     [Route("[controller]")]
     public class AuthController:ControllerBase
     {
-        private UserManager<IdentityUser> userManager;
+        private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
 
-        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
@@ -24,7 +25,7 @@ namespace MovieClubX.Endpoint.Controllers
         [HttpPost("Register")]
         public async Task Register([FromBody] UserCreateDto dto)
         {
-            var user = new IdentityUser { Email = dto.Email, UserName = dto.Email, EmailConfirmed=true };
+            var user = new AppUser { Email = dto.Email, UserName = dto.Email, EmailConfirmed=true, GivenName=dto.GivenName, FamilyName= dto.FamilyName };
             await userManager.CreateAsync(user, dto.Password);
             if (userManager.Users.Count()==1)
             {

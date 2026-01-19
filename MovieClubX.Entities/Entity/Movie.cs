@@ -12,8 +12,13 @@ namespace MovieClubX.Entities.Entity
         public string Title { get; set; } = string.Empty;
         [StringLength(250)]
         public string Slug { get; set; } = string.Empty;
-        public string Genre { get; set; }= string.Empty;
-        public virtual ICollection<Rate>? Rates { get; set; }
+        [StringLength(250)]
 
+        public string Genre { get; set; }= string.Empty;
+        [NotMapped]
+        public virtual ICollection<Rate>? Rates { get; set; }
+        [StringLength(250)]
+
+        public string CreatorId { get; set; } = string.Empty;
     }
 }

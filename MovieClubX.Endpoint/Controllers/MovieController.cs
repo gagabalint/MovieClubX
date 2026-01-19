@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MovieClubX.Data;
+using MovieClubX.Data.Helpers;
 using MovieClubX.Entities.Dto.MovieDtos;
 using MovieClubX.Entities.Entity;
 using MovieClubX.Logic;
@@ -14,10 +17,12 @@ namespace MovieClubX.Endpoint.Controllers
     public class MovieController : ControllerBase
     {
         MovieLogic logic;
-        
-        public MovieController(MovieLogic logic)
+        UserManager<AppUser> userManager;
+
+        public MovieController(MovieLogic logic, UserManager<AppUser> userManager)
         {
             this.logic = logic;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -39,11 +44,14 @@ namespace MovieClubX.Endpoint.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task Post([FromBody] MovieCreateUpdateDto dto)
         {
-            await logic.Create(dto);
+            var user = await userManager.GetUserAsync(User);
+            await logic.Create(dto, user!.Id);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpDelete("{id}")]
         public async Task Delete(string id)
         {
@@ -53,9 +61,12 @@ namespace MovieClubX.Endpoint.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task Update(string id, [FromBody] MovieCreateUpdateDto dto)
         {
-            await logic.Update(id, dto);
+            var user = await userManager.GetUserAsync(User);
+
+            await logic.Update(id, dto, user!.Id);
         }
     }
 }
