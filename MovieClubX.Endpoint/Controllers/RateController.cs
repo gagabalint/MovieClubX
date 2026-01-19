@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MovieClubX.Data;
-using MovieClubX.Entities.Dto;
+using MovieClubX.Entities.Dto.RateDtos;
 using MovieClubX.Entities.Entity;
 using MovieClubX.Logic;
 using System.Threading.Tasks;

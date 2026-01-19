@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging.Abstractions;
-using MovieClubX.Entities.Dto;
+using MovieClubX.Entities.Dto.MovieDtos;
+using MovieClubX.Entities.Dto.RateDtos;
 using MovieClubX.Entities.Entity;
 using System;
 using System.Collections.Generic;

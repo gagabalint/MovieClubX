@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using MovieClubX.Data;
-using MovieClubX.Entities.Dto;
+using MovieClubX.Entities.Dto.RateDtos;
 using MovieClubX.Entities.Entity;
 using MovieClubX.Logic.Dto;
 using System;
