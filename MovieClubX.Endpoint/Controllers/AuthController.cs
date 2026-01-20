@@ -52,7 +52,7 @@ namespace MovieClubX.Endpoint.Controllers
                     {
                         claim.Add(new Claim(ClaimTypes.Role, role));
                     }
-                    int expiryInMinutes = 60;
+                    int expiryInMinutes = 360;
                     var token = GenerateAccessToken(claim, expiryInMinutes);
                     return Ok(new LoginResultDto()
                     {

@@ -7,6 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MovieClubX.Data;
 using MovieClubX.Data.Helpers;
+using MovieClubX.Endpoint.Helpers;
 using MovieClubX.Logic;
 using MovieClubX.Logic.Dto;
 using System.Text;
@@ -21,7 +22,7 @@ namespace MovieClubX.Endpoint
 
             // Add services to the container.
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers(opt => { opt.Filters.Add<ExceptionFilter>(); });
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(option =>

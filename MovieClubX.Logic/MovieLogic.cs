@@ -34,11 +34,18 @@ namespace MovieClubX.Logic
 
         public async Task Create( MovieCreateUpdateDto dto, string creatorId)
         {
-            var movie = mapper.Map<Movie>(dto);
-            movie.CreatorId = creatorId;
-            //movie.Slug = SlugGenerator.SlugGenerator.GenerateSlug(dto.Title);
+            if (repository.GetAll().Any(i => i.Title == dto.Title))
+            {
+                throw new Exception("Database already contains a movie under this name!");
+            }
+            else
+            {
+                var movie = mapper.Map<Movie>(dto);
+                movie.CreatorId = creatorId;
+                movie.Slug = SlugGenerator.SlugGenerator.GenerateSlug(dto.Title);
 
-            await repository.CreateAsync(movie);
+                await repository.CreateAsync(movie);
+            }
         }
 
         public async Task Delete(string id)
