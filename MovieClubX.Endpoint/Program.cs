@@ -1,6 +1,7 @@
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -22,7 +23,15 @@ namespace MovieClubX.Endpoint
 
             // Add services to the container.
 
-            builder.Services.AddControllers(opt => { opt.Filters.Add<ExceptionFilter>(); });
+            builder.Services.AddControllers(opt => {
+                opt.Filters.Add<ExceptionFilter>();
+                opt.Filters.Add<ValidationFilter>();
+            });
+            builder.Services.Configure<ApiBehaviorOptions>(opt =>
+            {
+                opt.SuppressModelStateInvalidFilter = true;
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(option =>
