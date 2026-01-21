@@ -77,8 +77,8 @@ namespace MovieClubX.Endpoint
                     ValidateAudience = true,
                     ValidAudience = "movieclub.com",
                     ValidIssuer = "movieclub.com",
-                    //IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:key"] ?? throw new Exception("jwt:key not found in appsettings.json")))
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("NagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcs"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["jwt:key"] ?? throw new Exception("jwt:key not found in appsettings.json")))
+                   // IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("NagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcs"))
                 };
             });
             builder.Services.AddTransient<MovieLogic>();
@@ -86,7 +86,8 @@ namespace MovieClubX.Endpoint
             builder.Services.AddTransient<DtoProvider>();
             builder.Services.AddDbContext<MovieClubContext>(opt =>
             {
-                opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True").UseLazyLoadingProxies();
+                //  opt.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=MovieClubDbX;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True").UseLazyLoadingProxies();
+                opt.UseSqlServer(builder.Configuration["db:connStr"]).UseLazyLoadingProxies();
             });
 
 

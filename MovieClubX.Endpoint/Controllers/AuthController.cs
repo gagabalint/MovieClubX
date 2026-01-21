@@ -15,11 +15,13 @@ namespace MovieClubX.Endpoint.Controllers
     {
         private UserManager<AppUser> userManager;
         private RoleManager<IdentityRole> roleManager;
+        private IConfiguration configuration;
 
-        public AuthController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public AuthController(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.configuration = configuration;
         }
 
         [HttpPost("Register")]
@@ -35,6 +37,7 @@ namespace MovieClubX.Endpoint.Controllers
         }
 
         [HttpPost("Login")]
+        [ProducesResponseType(typeof(LoginResultDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Login([FromBody] UserLoginDto dto)
         {
             var user = await userManager.FindByEmailAsync(dto.Email);
@@ -52,12 +55,12 @@ namespace MovieClubX.Endpoint.Controllers
                     {
                         claim.Add(new Claim(ClaimTypes.Role, role));
                     }
-                    int expiryInMinutes = 360;
+                    int expiryInMinutes = int.Parse(configuration["jwt:expiry"] ?? throw new Exception("jwt:expiry not found in appsettings.json"));
                     var token = GenerateAccessToken(claim, expiryInMinutes);
                     return Ok(new LoginResultDto()
                     {
                         Token=new JwtSecurityTokenHandler().WriteToken(token),
-                        Expiry=DateTime.Now.AddMinutes(expiryInMinutes)
+                        Expiry=DateTime.UtcNow.AddMinutes(expiryInMinutes)
                     });
                 
                 }
@@ -75,13 +78,12 @@ namespace MovieClubX.Endpoint.Controllers
 
         private JwtSecurityToken GenerateAccessToken(IEnumerable<Claim>? claims, int expiryInMinutes)
         {
-            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("NagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcsNagyonhosszútitkosítókulcs"));
-
+            var signinKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["jwt:key"] ?? throw new Exception("jwt:key not found in appsettings.json")));
             return new JwtSecurityToken(
                   issuer: "movieclub.com",
                   audience: "movieclub.com",
                   claims: claims?.ToArray(),
-                  expires: DateTime.Now.AddMinutes(expiryInMinutes),
+                  expires: DateTime.UtcNow.AddMinutes(expiryInMinutes),
                   signingCredentials: new SigningCredentials(signinKey, SecurityAlgorithms.HmacSha256)
                 );
         }
